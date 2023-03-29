@@ -16,9 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'Citation du jour',
       theme: ThemeData(
         primaryColor: Colors.black,
-        textTheme: GoogleFonts.georgiaTextTheme(
-          Theme.of(context).textTheme,
-        ),
+        fontFamily: 'Noto_Serif_Georgian', // Remplacez cette ligne
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             primary: Color(0xFF555555),
@@ -31,7 +29,6 @@ class MyApp extends StatelessWidget {
 }
 
 // Le reste du code reste inchangé
-
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -63,7 +60,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   String getYear(String? dateString) {
-    if (dateString == null || !RegExp(r'\d{4}-\d{2}-\d{2}').hasMatch(dateString)) {
+    if (dateString == null ||
+        !RegExp(r'\d{4}-\d{2}-\d{2}').hasMatch(dateString)) {
       return '';
     }
     DateTime date = DateTime.parse(dateString);
@@ -128,10 +126,12 @@ class _MyHomePageState extends State<MyHomePage> {
               Text(
                 _citation,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headline6,
+                style: GoogleFonts.CustomFontItalic(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              SizedBox(height: 
-              20),
+              SizedBox(height: 20),
               Text(
                 _auteur,
                 textAlign: TextAlign.center,
@@ -158,7 +158,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<Quote> getDailyQuote() async {
-    final response = await http.get(Uri.parse('https://qotd-api.herokuapp.com/api/daily_quote'));
+    final response = await http
+        .get(Uri.parse('https://qotd-api.herokuapp.com/api/daily_quote'));
 
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonResponse = jsonDecode(response.body);
@@ -173,7 +174,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<Quote> getRandomQuote() async {
-    final response = await http.get(Uri.parse('https://qotd-api.herokuapp.com/api/random_quote'));
+    final response = await http
+        .get(Uri.parse('https://qotd-api.herokuapp.com/api/random_quote'));
 
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonResponse = jsonDecode(response.body);
